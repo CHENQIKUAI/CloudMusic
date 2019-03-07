@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        搜索音乐
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="mod_search" style="background-image:url(//y.gtimg.cn/mediastyle/yqq/img/bg_search.jpg);">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search_input" placeholder="搜索音乐、MV、歌单、用户">
+        </div>
+        <!-- <button class="search_input_btn">
+            <img src="./images/search.png" alt="icon-search" height="40px" width="40px">
+        </button> -->
+    </div>
+
+    <div class="container">
+        <div class="row songs_title">
+            <div class="col-md-5">
+                歌曲
+            </div>
+            <div class="col-md-3">
+                歌手
+            </div>
+            <div class="col-md-3">
+                专辑
+            </div>
+            <div class="col-md-1">
+                时长
+            </div>
+        </div>
+        <div class="show_time"></div>
+        <div class="row">
+            <div class="col-md-5">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="page_containr" style="display: none">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" id="load_page">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="./javascripts/search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        播放音乐
+    </title>
+    <link rel="stylesheest" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/play.css' />
+    <link rel="stylesheet" href="/lib/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+    <style>
+        .icon {
+            width: 2.5em;
+            height: 2.5em;
+            vertical-align: -0.45em;
+            fill: #bdbdbe;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="box">
+    </div>
+
+
+    <div class="page-end">
+        <div class="player">
+            <audio id="audio-media" controls loop autoplay style="display: none;">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="control-song">
+                <a href="#">
+                    <svg class="icon icon-prev" aria-hidden="true">
+                        <use xlink:href="#icon-shangyishou"></use>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg class="icon icon-state" aria-hidden="true">
+                        <use xlink:href="#icon-bofang"></use>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg class="icon icon-next" aria-hidden="true">
+                        <use xlink:href="#icon-xiayishou"></use>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="show-song">
+                <div class="show-msg">
+                    <span class="song-name"></span>
+                    <span class="song-duration"></span>
+                </div>
+                <div class="song-progress">
+                    <div class="play-progress">
+                        <div class="player-progress-load"></div>
+                        <div class="player-progress-play"><i class="player-progress-dot"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="handle-song">
+                <a href="#">
+                    <svg class="icon icon-mod" aria-hidden="true">
+                        <use xlink:href="#icon-xunhuan"></use>
+                    </svg>
+                </a>
+                <a href="#" target="_blank" class="a-download">
+                    <svg class="icon icon-download" aria-hidden="true">
+                        <use xlink:href="#icon-xiazai-xue"></use>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg class="icon icon-comment" aria-hidden="true">
+                        <use xlink:href="#icon-pinglun"></use>
+                    </svg>
+                </a>
+                <a href="#">
+                    <svg class="icon icon-voice" aria-hidden="true">
+                        <use xlink:href="#icon-shengyin"></use>
+                    </svg>
+                </a>
+                <div class="voice-progress"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./javascripts/iconfont.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="/lib/custom-scrollbar/jquery.mCustomScrollbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="./javascripts/play.js"></script>
+</body>
+
+</html>
