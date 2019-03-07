@@ -6,6 +6,7 @@ const audioMedia = document.getElementById('audio-media');
 const dotEl = document.querySelector(".player-progress-dot");
 const playLineEl = document.querySelector(".player-progress-play");
 
+
 const musicIDs = ["400162138", "28949444", "156374", "157301"];
 // https://music.163.com/song/media/outer/url?id=400162138.mp3
 const PAUSE_STATE = "PAUSE_STATE"
@@ -19,7 +20,8 @@ const store = {
     musicIDs: musicIDs,
     musicIndex: 0,
     volume: 1,
-    playState: STOP_STATE
+    playState: STOP_STATE,
+
 }
 
 
@@ -32,8 +34,24 @@ const changeMusicIndex = (changeTo) => {
 }
 
 
+
+// 传进毫秒，得到分秒
+const calcDuration = (sDuration) => {
+    const iDuration = parseInt(sDuration);
+    const dDuration = new Date(iDuration);
+
+    function foo(str) {
+        str = '00' + str;
+        return str.substring(str.length - 2, str.length);
+    }
+    const duration = foo(dDuration.getMinutes()) + ": " + foo(dDuration.getSeconds());
+    return duration;
+}
+
+
 //音乐的加载函数
 const loadMusic = (audioMedia, musicIDs, musicIndex) => {
+    
     const id = musicIDs[musicIndex];
     const url = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
     fetch(`http://localhost:3000/song/detail?ids=${id}`)
@@ -43,8 +61,10 @@ const loadMusic = (audioMedia, musicIDs, musicIndex) => {
             const songName = data.songs[0].name;
             const singer = data.songs[0].ar[0].name;
 
-            document.querySelector(".song-name").innerHTML = songName;
-            document.querySelector(".song-duration").innerHTML = singer;
+            document.querySelector(".song-name").innerHTML = songName + " -";
+            document.querySelector(".singer-name").innerHTML = singer;
+
+            document.querySelector(".song-duration").innerHTML = "";
 
         }).catch(function (e) {
             console.log("Oops, error in hot songs");
@@ -71,7 +91,7 @@ const pause = (audioMedia) => {
     iconState.children[0].href.baseVal = "#icon-bofang";
     store.playState = PAUSE_STATE;
 }
-
+    
 
 const justPlay = () => {
     //使 播放
@@ -204,10 +224,14 @@ iconPrev.onclick = (e) => {
 
 //对进度条上的点进行操作；
 const dotMove = (DotEl, PlayLineEl, timeTotal, beginAt = 0) => {
+
+    
+    let duration = null;
+    
     const width = 350;
     timeTotal *= 1000;
 
-    const timePerExe = 1500;
+    const timePerExe = 1000;
     let distance = 0;
     let percent = 0;
     const perTimeDistance = width * timePerExe / timeTotal;
@@ -216,14 +240,21 @@ const dotMove = (DotEl, PlayLineEl, timeTotal, beginAt = 0) => {
     distance += beginAt;
     percent += beginAt / width * 100;
 
+    let time = 0;
     window.interval = setInterval(() => {
         if (distance >= width - 10) {
             clearInterval(interval);
         } else {
+            time++;
+            if(duration == null){
+                duration = calcDuration(audioMedia.duration * 1000);
+            }
+            
             distance += perTimeDistance;
             percent += perTimePercent;
             DotEl.style.left = distance + 'px';
             PlayLineEl.style.width = percent + "%";
+            document.querySelector(".song-duration").innerHTML = calcDuration(time * 1000) + "/" + duration;
         }
     }, timePerExe);
 }
@@ -292,7 +323,6 @@ window.onload = () => {
                     const singer = data.songs[0].ar[0].name;
                     const po = componentASong(i + 1, songName, singer, "time");
 
-                    // console.log(index, songName, singer);
 
                     po.addEventListener("dblclick", (e) => {
                         loadMusic(audioMedia, store.musicIDs, i);
