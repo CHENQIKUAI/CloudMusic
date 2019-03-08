@@ -7,7 +7,7 @@ const dotEl = document.querySelector(".player-progress-dot");
 const playLineEl = document.querySelector(".player-progress-play");
 
 
-const musicIDs = ["400162138", "28949444", "156374", "157301"];
+const musicIDs = ["400162138", "28949444", "156374", "157301", "35090368", '196631', '1336871144', '1336866134', '1334647784', '504835560', '264659', '26018755', '1345848098', '1341964346', '1336856777', '1336866698'];
 // https://music.163.com/song/media/outer/url?id=400162138.mp3
 const PAUSE_STATE = "PAUSE_STATE"
 const START_STATE = "START_STATE"
@@ -21,7 +21,7 @@ const store = {
     musicIndex: 0,
     volume: 1,
     playState: STOP_STATE,
-
+    music: {}
 }
 
 
@@ -51,7 +51,7 @@ const calcDuration = (sDuration) => {
 
 //音乐的加载函数
 const loadMusic = (audioMedia, musicIDs, musicIndex) => {
-    
+
     const id = musicIDs[musicIndex];
     const url = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
     fetch(`http://localhost:3000/song/detail?ids=${id}`)
@@ -91,7 +91,7 @@ const pause = (audioMedia) => {
     iconState.children[0].href.baseVal = "#icon-bofang";
     store.playState = PAUSE_STATE;
 }
-    
+
 
 const justPlay = () => {
     //使 播放
@@ -103,18 +103,21 @@ const justPlay = () => {
 
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
-        }, 800);
+            play(audioMedia);
+        }, 700);
     } else if (store.playState === PAUSE_STATE) {
         //若 之前状态 为 暂停
         dotMove(dotEl, playLineEl, audioMedia.duration, parseInt(window.recordDotLeft));
+        play(audioMedia);
     } else {
         //若 之前状态 为 停止
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
-        }, 800);
+            play(audioMedia);
+        }, 700);
     }
 
-    play(audioMedia);
+
     iconState.children[0].href.baseVal = "#icon-zanting"
     store.playState = START_STATE;
 }
@@ -150,7 +153,7 @@ iconNext.onclick = (e) => {
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     } else if (store.playState === PAUSE_STATE) {
         pause(audioMedia);
@@ -161,14 +164,14 @@ iconNext.onclick = (e) => {
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     } else if (store.playState === STOP_STATE) {
 
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     }
 
@@ -195,7 +198,7 @@ iconPrev.onclick = (e) => {
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     } else if (store.playState === PAUSE_STATE) {
         pause(audioMedia);
@@ -206,14 +209,14 @@ iconPrev.onclick = (e) => {
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     } else if (store.playState === STOP_STATE) {
 
         setTimeout(() => {
             dotMove(dotEl, playLineEl, audioMedia.duration);
             play(audioMedia);
-        }, 800);
+        }, 700);
 
     }
 
@@ -225,9 +228,8 @@ iconPrev.onclick = (e) => {
 //对进度条上的点进行操作；
 const dotMove = (DotEl, PlayLineEl, timeTotal, beginAt = 0) => {
 
-    
     let duration = null;
-    
+
     const width = 350;
     timeTotal *= 1000;
 
@@ -246,10 +248,10 @@ const dotMove = (DotEl, PlayLineEl, timeTotal, beginAt = 0) => {
             clearInterval(interval);
         } else {
             time++;
-            if(duration == null){
+            if (duration == null) {
                 duration = calcDuration(audioMedia.duration * 1000);
             }
-            
+
             distance += perTimeDistance;
             percent += perTimePercent;
             DotEl.style.left = distance + 'px';
@@ -300,60 +302,102 @@ const componentASong = (id, songName, singer, time) => {
 }
 
 
+
 window.onload = () => {
+
+    let socket = io();
+    //当有id传递来时， 添加到store中， 挂载到dom中；
+    socket.on('pass songs ids', (ids) => {
+        console.log(ids);
+
+        const indexNow = store.musicIDs.length;
+        if (typeof ids === 'number') {
+            store.musicIDs.push(ids + '');
+            console.log(store.musicIDs);
+            storeSongMessage(indexNow, indexNow + 1);
+            initDomForSongs(indexNow, indexNow + 1);
+
+        } else if (typeof ids === 'object') {
+
+            const startAt = indexNow;
+            const endTo = indexNow + ids.length;
+            for (let i = 0; i < ids.length; ++i) {
+                store.musicIDs.push(ids[i]);
+            }
+
+            storeSongMessage(startAt, endTo);
+            initDomForSongs(startAt, endTo);
+        }
+
+
+    })
+
+    socket.on('pass playlist id', (id) => {
+        console.log(id)
+    })
+
+
+    //存储相关信息到store中
+    storeSongMessage(0, store.musicIDs.length);
+
+    //为dom节点挂载歌曲
+    initDomForSongs(0, store.musicIDs.length);
+
     //执行音乐的加载
     loadMusic(audioMedia, store.musicIDs, store.musicIndex);
 
-    const container = document.createElement("div");
+    //让歌曲信息包裹一个小滚动条里面
+    // $(".content").mCustomScrollbar({
+    //     axis: "yx",
+    //     scrollButtons: {
+    //         enable: true
+    //     },
+    //     theme: "3d-dark",
+    // });
+}
 
-    const box = document.getElementById('box');
-    container.className = "content";
-    for (let i = 0; i < store.musicIDs.length; ++i) {
+const storeSongMessage = (startAt, endTo) => {
+    for (let i = startAt; i < endTo; ++i) {
+        console.log(i + ' is the index of musicId');
+        const id = store.musicIDs[i];
+        fetch(`http://localhost:3000/song/detail?ids=${id}`)
+            .then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                const songName = data.songs[0].name
+                const singer = data.songs[0].ar[0].name;
+                const albumName = data.songs[0].al.name;
+                const url = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 
-        (() => {
-            // let index = i;
-            const id = store.musicIDs[i];
-            const url = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
-            fetch(`http://localhost:3000/song/detail?ids=${id}`)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-
-                    const songName = data.songs[0].name;
-                    const singer = data.songs[0].ar[0].name;
-                    const po = componentASong(i + 1, songName, singer, "time");
-
-
-                    po.addEventListener("dblclick", (e) => {
-                        loadMusic(audioMedia, store.musicIDs, i);
-                        justPlay();
-                        // setTimeout(() => {
-                        //     dotMove(dotEl, playLineEl, audioMedia.duration);
-                        //     // play(audioMedia);
-                        // }, 800);
-                    })
-
-                    console.log(po)
-                    container.appendChild(po);
-
-                    if (i === store.musicIDs.length - 1) {
-                        box.appendChild(container);
-
-                    }
-
-                }).catch(function (e) {
-                    console.log("Oops, error in hot songs");
-                });
-        })();
+                store.music[id] = {
+                    songName: songName,
+                    singer: singer,
+                    albumName: albumName,
+                    url: url
+                };
+            }).catch(function (e) {
+                console.log("Oops, error in hot songs");
+            });
     }
+}
 
+const initDomForSongs = (beginAt, endTo) => {
+    setTimeout(() => {
+        const container = document.querySelector('.container');
+        const box = document.getElementById('box');
+        for (let i = beginAt; i < endTo; ++i) {
+            const id = store.musicIDs[i];
+            const songName = store.music[id].songName;
+            const singer = store.music[id].singer;
+            const url = store.music[id].url;
+            const po = componentASong(i + 1, songName, singer, "")
 
-    $(".content").mCustomScrollbar({
-        axis: "yx",
-        scrollButtons: {
-            enable: true
-        },
-        theme: "3d-dark",
-    });
-
+            po.addEventListener("dblclick", (e) => {
+                loadMusic(audioMedia, store.musicIDs, i);
+                justPlay();
+            })
+            container.appendChild(po);
+        }
+        box.appendChild(container);
+    }, 1800);
 }

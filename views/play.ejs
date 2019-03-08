@@ -5,8 +5,8 @@
     <title>
         播放音乐
     </title>
-    <link rel="stylesheest" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheest" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/play.css' />
     <link rel="stylesheet" href="/lib/custom-scrollbar/jquery.mCustomScrollbar.min.css">
     <style>
@@ -21,14 +21,12 @@
 </head>
 
 <body>
-
     <div id="box">
+        <div class="container"></div>
     </div>
-
-
     <div class="page-end">
         <div class="player">
-            <audio id="audio-media" controls loop autoplay style="display: none;">
+            <audio id="audio-media" controls style="display: none;">
                 Your browser does not support the audio element.
             </audio>
             <div class="control-song">
@@ -89,18 +87,18 @@
         </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
 
-    <script src="./javascripts/iconfont.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+
+    <script src="./lib/iconfont.js"></script>
+    <script src="/lib/jquery-3.3.1.js"></script>
     <script src="/lib/custom-scrollbar/jquery.mCustomScrollbar.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script> -->
+    <script src="/lib/bootstrap-4.2.1-dist/js/bootstrap.js"></script>
     <script src="./javascripts/play.js"></script>
 </body>
 
