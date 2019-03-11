@@ -40,3 +40,13 @@
 - 遇到的问题：？？？？
     1. 变量在全局中申明， 在html的标签中onClick中调用一个函数，这个函数的参数是它， 可是结果在运行的时候是undefined。
     2. 滚动条失效了？ 有什么比较好的设计样式？
+
+
+#2019.3.11
+- aim:
+    1. pass the right id to play
+    2. style the index
+    3. getting the right id from visiting the website.
+
+- result:
+    all done;

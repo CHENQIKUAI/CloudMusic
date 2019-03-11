@@ -21,12 +21,13 @@ window.onload = () => {
             const tracks = data.playlist.tracks;
             const coverImgUrl = data.playlist.coverImgUrl;
 
-            const component = componentTopList("云音乐新歌榜", tracks, coverImgUrl);
+            const component = componentTopList("云音乐新歌榜", tracks, coverImgUrl, 0);
             container_bill.appendChild(component);
 
         }).catch(function (e) {
             console.log("Oops, error in playlist");
         });
+
 
     fetch("http://localhost:3000/top/list?idx=1")
         .then(function (response) {
@@ -34,11 +35,12 @@ window.onload = () => {
         }).then(function (data) {
             const tracks = data.playlist.tracks;
             const coverImgUrl = data.playlist.coverImgUrl;
-            const component = componentTopList("云音乐热歌榜", tracks, coverImgUrl);
+            const component = componentTopList("云音乐热歌榜", tracks, coverImgUrl, 1);
             container_bill.appendChild(component);
         }).catch(function (e) {
             console.log("Oops, error in playlist");
         });
+
 
     fetch("http://localhost:3000/top/list?idx=3")
         .then(function (response) {
@@ -46,24 +48,40 @@ window.onload = () => {
         }).then(function (data) {
             const tracks = data.playlist.tracks;
             const coverImgUrl = data.playlist.coverImgUrl;
-            const component = componentTopList("云音乐飙升榜", tracks, coverImgUrl);
+            const component = componentTopList("云音乐飙升榜", tracks, coverImgUrl, 3);
             container_bill.appendChild(component);
         }).catch(function (e) {
-            console.log("Oops, error in playlist");
+            console.log(e);
         });
 
 }
 
+
 const passSongsId = (ids) => {
     let socket = io();
     socket.emit('pass songs ids', ids);
-    console.log("pass songs ids", ids)
+    // console.log("pass songs ids", ids)
 }
 
 const passPlayListId = (id) => {
     let socket = io();
-    socket.emit("pass playlist id", id);
-    console.log("pass playlist id", id)
+
+    fetch(`http://localhost:3000/playlist/detail?id=${id}`)
+    .then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        const playlist= data.playlist;
+        let ids = [];
+        for(let i = 0; i < 10; ++i){
+            ids.push(playlist.trackIds[i].id);
+        }
+        passSongsId(ids);
+        console.log("pass playlist id", ids)
+    }).catch(function (e) {
+        console.log("Oops, error in playlist");
+    });
+
+    
 }
 
 // 构建一个 歌单展示模板
@@ -111,23 +129,31 @@ const showPlaylist = (playlists) => {
         const playCount = el.playCount;
         const playlistId = el.id;
 
-        // console.log(playlistId + " test for 专辑的里音乐的");
-
         const item_playlist = componentItemPlaylist(coverImgUrl, playCount, name, playlistId);
         el_root.appendChild(item_playlist);
     }
 }
 
 
-const clickAlbum = (idList) => {
-    passSongsId(idList);
+const clickAlbum = (idx) => {
+    fetch(`http://localhost:3000/top/list?idx=${idx}`)
+        .then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            const playlist= data.playlist;
+            let ids = [];
+            for(let i = 0; i < 10; ++i){
+                ids.push(playlist.trackIds[i].id);
+            }
+            passSongsId(ids);
+        }).catch(function (e) {
+            console.log("Oops, error in playlist");
+        });
 }
 
-let idList = [];
 
-const componentTopList = (billName, tracks, coverImgUrl) => {
-    idList.length = 0;
 
+const componentTopList = (billName, tracks, coverImgUrl, idx) => {
     const component = document.createElement("div");
     component.style.width = "20%";
     component.className = "item_bill";
@@ -136,7 +162,7 @@ const componentTopList = (billName, tracks, coverImgUrl) => {
             <img src=${coverImgUrl} alt="img" height="80px" width="80px"/>
             <div class="flex top_right_item_bill">
                 <div>${billName}</div>
-                <a href="javascript:;" onClick="clickAlbum(${idList})">
+                <a href="javascript:;" onClick="clickAlbum(${idx})">
                     <img src="./images/play.png" alt="play_img" height="20px" width="20px"/>
                 </a>
             </div>
@@ -145,18 +171,14 @@ const componentTopList = (billName, tracks, coverImgUrl) => {
             <ol></ol>
         </dd>
         `
-
     for (let i = 0; i < 10; ++i) {
         const insertedEl = component.children[1].children[0];
         const name = tracks[i].name;
-        const song_id = tracks[i].id;
-        idList.push(song_id);
         const singer = tracks[i].ar[0].name;
-
         const li = document.createElement("li");
         li.innerHTML = `
         <span>${i + 1}</span>
-        <a href="javascript:;" onClick="passSongsId(${song_id})">${name}</a>
+        <a href="javascript:;" onClick="passSongsId(${tracks[i].id})">${name}</a>
         `
         li.style.listStyle = "none";
         li.style.overflow = "hidden";
@@ -168,7 +190,6 @@ const componentTopList = (billName, tracks, coverImgUrl) => {
         li.children[0].style.float = "left";
         li.children[1].style.position = "absolute";
         li.children[1].style.left = "30px";
-
         if (i < 3) {
             li.style.color = "#c10d0c";
         }
@@ -177,8 +198,5 @@ const componentTopList = (billName, tracks, coverImgUrl) => {
         }
         insertedEl.appendChild(li);
     }
-
-    console.log(idList, 'test for idlsits');
-
     return component;
 }

@@ -7,7 +7,7 @@ const dotEl = document.querySelector(".player-progress-dot");
 const playLineEl = document.querySelector(".player-progress-play");
 
 
-const musicIDs = ["400162138", "28949444", "156374", "157301", "35090368", '196631', '1336871144', '1336866134', '1334647784', '504835560', '264659', '26018755', '1345848098', '1341964346', '1336856777', '1336866698'];
+const musicIDs = ['1345848098'];
 // https://music.163.com/song/media/outer/url?id=400162138.mp3
 const PAUSE_STATE = "PAUSE_STATE"
 const START_STATE = "START_STATE"
@@ -32,7 +32,6 @@ const changeMusicIndex = (changeTo) => {
         store.musicIndex = (store.musicIndex - 1 + store.musicIDs.length) % store.musicIDs.length;
     }
 }
-
 
 
 // 传进毫秒，得到分秒
@@ -333,6 +332,7 @@ window.onload = () => {
     })
 
     socket.on('pass playlist id', (id) => {
+        
         console.log(id)
     })
 
