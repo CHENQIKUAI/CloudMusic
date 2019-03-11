@@ -8,7 +8,6 @@
     <link rel="stylesheest" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/play.css' />
-    <link rel="stylesheet" href="/lib/custom-scrollbar/jquery.mCustomScrollbar.min.css">
     <style>
         .icon {
             width: 2.5em;
@@ -22,7 +21,7 @@
 
 <body>
     <div id="box">
-        <div class="container"></div>
+        <div class="content"></div>
     </div>
     <div class="page-end">
         <div class="player">
@@ -83,16 +82,8 @@
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-    </script>
-
-
     <script src="./lib/iconfont.js"></script>
     <script src="/lib/jquery-3.3.1.js"></script>
-    <script src="/lib/custom-scrollbar/jquery.mCustomScrollbar.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script> -->
     <script src="/lib/bootstrap-4.2.1-dist/js/bootstrap.js"></script>
     <script src="./javascripts/play.js"></script>
 </body>

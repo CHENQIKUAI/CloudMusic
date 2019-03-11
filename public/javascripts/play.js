@@ -59,10 +59,8 @@ const loadMusic = (audioMedia, musicIDs, musicIndex) => {
         }).then(function (data) {
             const songName = data.songs[0].name;
             const singer = data.songs[0].ar[0].name;
-
             document.querySelector(".song-name").innerHTML = songName + " -";
             document.querySelector(".singer-name").innerHTML = singer;
-
             document.querySelector(".song-duration").innerHTML = "";
 
         }).catch(function (e) {
@@ -307,12 +305,12 @@ window.onload = () => {
     let socket = io();
     //当有id传递来时， 添加到store中， 挂载到dom中；
     socket.on('pass songs ids', (ids) => {
-        console.log(ids);
+        // console.log(ids);
 
         const indexNow = store.musicIDs.length;
         if (typeof ids === 'number') {
             store.musicIDs.push(ids + '');
-            console.log(store.musicIDs);
+            // console.log(store.musicIDs);
             storeSongMessage(indexNow, indexNow + 1);
             initDomForSongs(indexNow, indexNow + 1);
 
@@ -331,11 +329,6 @@ window.onload = () => {
 
     })
 
-    socket.on('pass playlist id', (id) => {
-        
-        console.log(id)
-    })
-
 
     //存储相关信息到store中
     storeSongMessage(0, store.musicIDs.length);
@@ -346,19 +339,11 @@ window.onload = () => {
     //执行音乐的加载
     loadMusic(audioMedia, store.musicIDs, store.musicIndex);
 
-    //让歌曲信息包裹一个小滚动条里面
-    // $(".content").mCustomScrollbar({
-    //     axis: "yx",
-    //     scrollButtons: {
-    //         enable: true
-    //     },
-    //     theme: "3d-dark",
-    // });
 }
 
 const storeSongMessage = (startAt, endTo) => {
     for (let i = startAt; i < endTo; ++i) {
-        console.log(i + ' is the index of musicId');
+        // console.log(i + ' is the index of musicId');
         const id = store.musicIDs[i];
         fetch(`http://localhost:3000/song/detail?ids=${id}`)
             .then(function (response) {
@@ -383,7 +368,7 @@ const storeSongMessage = (startAt, endTo) => {
 
 const initDomForSongs = (beginAt, endTo) => {
     setTimeout(() => {
-        const container = document.querySelector('.container');
+        const content = document.querySelector('.content');
         const box = document.getElementById('box');
         for (let i = beginAt; i < endTo; ++i) {
             const id = store.musicIDs[i];
@@ -396,8 +381,8 @@ const initDomForSongs = (beginAt, endTo) => {
                 loadMusic(audioMedia, store.musicIDs, i);
                 justPlay();
             })
-            container.appendChild(po);
+            content.appendChild(po);
         }
-        box.appendChild(container);
+        box.appendChild(content);
     }, 1800);
 }

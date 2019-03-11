@@ -11,6 +11,13 @@ const clearOriginSongs = () => {
 }
 
 
+const passSongId = (id) => {
+    var socket = io();
+    socket.emit("pass songs ids", id);
+}
+
+
+
 const showOnePage = (songs, startIndex, num = 10) => {
     clearOriginSongs();
 
@@ -45,7 +52,7 @@ const showOnePage = (songs, startIndex, num = 10) => {
                 <img src="./images/play.png" alt="play">
             </a>
             <a href="#">
-                <img src="./images/add.png" alt="play">
+                <img onClick="passSongId(${id})" src="./images/add.png" alt="play">
             </a>
         </div>`;
 

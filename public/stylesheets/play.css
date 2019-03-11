@@ -55,17 +55,16 @@ a {
 
 .play-progress {
     position: relative;
-    width: 350px;
+    width: 500px;
     cursor: pointer;
 }
 
 #box {
     /* 外层包裹要设置宽和高，还有overflow:hidden; */
     width: 400px;
-    height: 400px;
-    overflow: hidden;
+    height: 500px;
+    overflow: scroll;
     margin: 100px auto;
-    /* border: 1px solid #000; */
 }
 
 .content {
@@ -89,5 +88,4 @@ a {
 
 body {
     background-color: rgba(0, 0, 0, 0.5);
-
 }

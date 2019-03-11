@@ -43,10 +43,24 @@
 
 
 #2019.3.11
+round 1
+
 - aim:
     1. pass the right id to play
     2. style the index
     3. getting the right id from visiting the website.
-
 - result:
     all done;
+
+round 2
+
+- aim:
+    1. 给play页面歌曲信息展示添加滚动条
+    2. 让歌曲进度条边长一点
+- result
+    all done;
+
+
+结语：
+
+I feel that this project is not based on the template, many places are thinking myself, the reconstruction of the code has a lot of problems, the details are not particularly good, the efficiency of learning is not particularly high, so I decided to stop first. this project.

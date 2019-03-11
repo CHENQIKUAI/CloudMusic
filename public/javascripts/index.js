@@ -64,8 +64,7 @@ const passSongsId = (ids) => {
 }
 
 const passPlayListId = (id) => {
-    let socket = io();
-
+    
     fetch(`http://localhost:3000/playlist/detail?id=${id}`)
     .then(function (response) {
         return response.json();
