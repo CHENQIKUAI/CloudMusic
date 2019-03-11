@@ -1,3 +1,5 @@
+[音乐API](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
 # 2019.2.1
 - 完成
     1. 用express建立项目目录
